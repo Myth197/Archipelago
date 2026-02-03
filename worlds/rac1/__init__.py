@@ -319,7 +319,7 @@ class RacWorld(World):
                     rac_logger.debug(f"Reachable Locations: {reachable}")
                     fill_restrictive(multiworld, base_state, loc_temp, item_temp, single_player_placement=True,
                                      lock=False, swap=True, allow_partial=False,
-                                     name=f"RAC1 Restricted Item Fill: {pool}")
+                                     name=f"rac1 Restricted Item Fill: {pool}")
                     # for item in item_temp:
                     #     add_items.remove(item)
                     # if item_temp:
@@ -351,7 +351,7 @@ class RacWorld(World):
                     rac_logger.debug(f"Reachable Locations: {reachable}")
 
                     fill_restrictive(multiworld, base_state, loc_temp, item_temp, single_player_placement=True,
-                                     lock=False, swap=True, allow_partial=True, name="RAC1 Useful Item Fill")
+                                     lock=False, swap=True, allow_partial=True, name="rac1 Useful Item Fill")
                     for item in item_temp:
                         add_items.remove(item)
                         item_list = self.item_pool.get(item.name) or []

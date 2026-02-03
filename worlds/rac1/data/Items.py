@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Mapping, Sequence
 
 from BaseClasses import Item, ItemClassification
-from worlds.RAC1 import Options
+from worlds.rac1 import Options
 
 
 @dataclass
