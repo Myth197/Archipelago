@@ -3,10 +3,11 @@ import typing
 from BaseClasses import CollectionState, Location, Region
 from .constants.items import RAC1ITEM
 from .constants.options import RAC1OPTION
-from .constants.planets import RAC1PLANET
+from worlds.rac1.constants.locations.planets import RAC1PLANET
+from .constants.pools import RAC1POOL
 from .data import Planets
 from .data.Items import check_progressive_item, get_gold_bolts
-from .data.Locations import LocationData, POOL_GOLD_BOLT, POOL_GOLD_WEAPON
+from .data.Locations import LocationData
 from .data.Planets import PlanetData
 from ..generic.Rules import forbid_item
 
@@ -74,14 +75,14 @@ def create_regions(world: 'RacWorld'):
                     return access_rule
 
                 region.add_locations({location_data.name: location_data.location_id}, RacLocation)
-                if POOL_GOLD_BOLT in location_data.pools:
+                if RAC1POOL.GOLD_BOLTS in location_data.pools:
                     location_data.vanilla_item = get_gold_bolts(world.options)
                 elif location_data.vanilla_item is not None:
                     location_data.vanilla_item = check_progressive_item(world.options, location_data.vanilla_item)
 
                 location = world.multiworld.get_location(location_data.name, world.player)
                 location.access_rule = generate_access_rule(location_data)
-                if POOL_GOLD_WEAPON in location_data.pools:
+                if RAC1POOL.GOLD_WEAPONS in location_data.pools:
                     forbid_item(location, get_gold_bolts(world.options), world.player)
 
     # from Utils import visualize_regions

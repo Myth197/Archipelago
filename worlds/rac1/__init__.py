@@ -6,11 +6,10 @@ from Fill import fill_restrictive, FillError, sweep_from_pool
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import Component, components, SuffixIdentifier, Type
 from .constants.options import RAC1OPTION
+from .constants.pools import RAC1POOL
 from .data import Items, Locations, Planets
 from .data.Items import ALL_WEAPONS, check_progressive_item, CollectableData, get_bolt_pack, progression_rules
-from .data.Locations import (ALL_POOLS, DEFAULT_LIST, LocationData, POOL_BOOT, POOL_EXTRA_ITEM, POOL_GADGET,
-                             POOL_GOLD_BOLT, POOL_GOLD_WEAPON, POOL_HELMET, POOL_INFOBOT, POOL_PACK, POOL_SKILLPOINT,
-                             POOL_WEAPON)
+from .data.Locations import (ALL_POOLS, DEFAULT_LIST, LocationData)
 from .data.Planets import ALL_LOCATIONS, location_groups, PlanetData
 from .Options import RacOptions, ShuffleGadgets, ShuffleInfobots, ShuffleWeapons, StartingItem, StartingLocation
 from .Regions import create_regions
@@ -96,9 +95,9 @@ class RacWorld(World):
         enabled_pools = []
 
         if self.options.shuffle_gold_bolts.value:
-            enabled_pools += [POOL_GOLD_BOLT]
+            enabled_pools += [RAC1POOL.GOLD_BOLTS]
         else:
-            disabled_pools += [POOL_GOLD_BOLT]
+            disabled_pools += [RAC1POOL.GOLD_BOLTS]
         # if self.options.shuffle_skill_points.value:
         #     enabled_pools += [POOL_SKILLPOINT]
         # else:
@@ -267,7 +266,7 @@ class RacWorld(World):
                             rac_logger.debug(f"vanilla: {loc.name}, item: {item}")
             case 1:
                 for pool in pools:
-                    if pool == POOL_GOLD_WEAPON and POOL_WEAPON in pools:
+                    if pool == RAC1POOL.GOLD_WEAPONS and RAC1POOL.WEAPONS in pools:
                         continue
                     base_state = CollectionState(multiworld)
                     item_sweep = placed_items
@@ -276,7 +275,7 @@ class RacWorld(World):
                         rac_logger.debug(f"check {pool} pool: {item}")
                         item_pool = Items.from_name(item.name).pool
                         if item_pool != pool:
-                            if pool == POOL_WEAPON and POOL_GOLD_WEAPON in pools and item_pool == POOL_GOLD_WEAPON:
+                            if pool == RAC1POOL.WEAPONS and RAC1POOL.GOLD_WEAPONS in pools and item_pool == RAC1POOL.GOLD_WEAPONS:
                                 rac_logger.debug(f"Gold Weapon skipped: {item}")
                             else:
                                 rac_logger.debug(f"add to assumed: {item}")
@@ -300,8 +299,8 @@ class RacWorld(World):
                                 rac_logger.warning(f"vanilla item {loc.vanilla_item} can't be shuffled into pool {pool}"
                                                    f", filler bolt pack added instead")
                                 item_temp += [self.create_item(get_bolt_pack(self.options))]
-                        if pool == POOL_WEAPON and POOL_GOLD_WEAPON in pools:
-                            if POOL_GOLD_WEAPON in loc.pools and loc.vanilla_item is not None:
+                        if pool == RAC1POOL.WEAPONS and RAC1POOL.GOLD_WEAPONS in pools:
+                            if RAC1POOL.GOLD_WEAPONS in loc.pools and loc.vanilla_item is not None:
                                 loc_temp += [self.get_location(loc.name)]
                                 if self.item_pool[loc.vanilla_item]:
                                     item_temp += [self.item_pool[loc.vanilla_item].pop(0)]
